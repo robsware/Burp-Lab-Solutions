@@ -1,0 +1,26 @@
+DOM XSS in AngularJS expression with angle brackets and double quotes HTML-encoded
+
+DOM and AngularJS, fun!
+
+This requires some prerequisite knowledge about how AngularJS works, and it is mentioned in the lab description, AngularJS scans the content of HTML nodes that contain the ng-app attributes. Within those attributes, you can execute JS code within double curly braces to bypass encoding.
+
+Searching for a random string and looking at the page source, we can spot the ng-app attribute in the body:
+
+<body ng-app>
+    <div theme="blog">
+        <script src="/resources/js/labHeader.js"></script>
+        <div id="labHeader">
+        (...)
+
+and the search string as part of this body
+
+<section class="blog-header">
+    <h1>0 search results for 'asdf'</h1>
+    <hr>
+</section>
+
+Looking up AngularJS's syntax, an expression would look like this:
+
+{{ $on.constructor('alert(1337)')() }}
+
+Input that in the search string and the XSS should be triggered and the lab complete
