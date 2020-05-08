@@ -1,0 +1,7 @@
+Reflected DOM XSS
+
+Payload:
+\"-alert(1337)}//
+
+Simply input that in the search field and you should get your alert. The explanation provided in the lab description is great, so I'll just point you towards that.
+Keep an eye out for any eval() functions in your XSS exploits, they are generally useful. 
