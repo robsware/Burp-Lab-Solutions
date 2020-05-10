@@ -10,5 +10,4 @@ This is because, as mentioned on the main CSP page, script-src-elem is a strictl
 
 This works perfectly fine in chrome.
 
-Proof:
-2020-05-10-18-52-19.png
+Proof in this repo
