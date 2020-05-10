@@ -1,0 +1,14 @@
+Reflected XSS protected by CSP, with CSP bypass
+
+Disclaimer: This doesn't seem to work properly.
+
+The solution provided that you should visit this URL
+https://your-lab-id.web-security-academy.net/?search=%3Cscript%3Ealert%281%29%3C%2Fscript%3E&token=;script-src-elem%20%27unsafe-inline%27
+
+and you'll get your XSS. While the lab does get completed, the XSS doesn't trigger and firefox issues an error about content security policy: Content Security Policy: Couldn’t process unknown directive ‘script-src-elem’
+This is because, as mentioned on the main CSP page, script-src-elem is a strictly chrome feature
+
+This works perfectly fine in chrome.
+
+Proof:
+2020-05-10-18-52-19.png
