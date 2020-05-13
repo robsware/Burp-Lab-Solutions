@@ -1,0 +1,5 @@
+User role controlled by request parameter
+
+Turn on response intercept server response and intercept
+Login with the provided credentials, and observe that the page response with a token Admin=false. Change it to true and forward request. Keep intercept on.
+Click on admin panel, change the token in burp. Keep intercept on. Sneak up on carlos and delete him by changing the admin token in intercept again.
