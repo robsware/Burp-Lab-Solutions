@@ -1,0 +1,18 @@
+Unprotected admin functionality with unpredictable URL
+
+Check the page source and ctf+f for admin. You'll hit a script that looks this this:
+
+var isAdmin = false;
+if (isAdmin) {
+   var topLinksTag = document.getElementsByClassName("top-links")[0];
+   var adminPanelTag = document.createElement('a');
+   adminPanelTag.setAttribute('href', '/admin-avyntz');
+   adminPanelTag.innerText = 'Admin panel';
+   topLinksTag.append(adminPanelTag);
+   var pTag = document.createElement('p');
+   pTag.innerText = '|';
+   topLinksTag.appendChild(pTag);
+}
+
+The admin URL is there, in this case /admin-avyntz
+Nagivate to /admin-avyntz and delete carlos. It's just business.
