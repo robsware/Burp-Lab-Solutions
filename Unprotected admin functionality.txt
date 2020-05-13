@@ -1,0 +1,6 @@
+Unprotected admin functionality
+
+You could run a crawler, or do what you should generally do in an egnagement and check /robots.txt.
+
+In there, there is a mention of /administrator-panel
+Navigate to /administrator-panel and delete carlos. Nothing personal. 
