@@ -1,0 +1,9 @@
+User ID controlled by request parameter 
+
+Fairly simple. Log in to the provided account, go to your account and see that the URL contains a parameter called id:
+https://accc1f471fd08ed7801a3317008c00d6.web-security-academy.net/my-account?id=wiener
+
+Adjust the id to carlos
+https://accc1f471fd08ed7801a3317008c00d6.web-security-academy.net/my-account?id=carlos
+
+Submit the key and there you go.
