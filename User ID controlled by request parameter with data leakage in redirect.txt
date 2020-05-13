@@ -1,8 +1,0 @@
-User ID controlled by request parameter with data leakage in redirect 
-
-Solution provided is great.
-
-Go to "My Account", turn intercept and intercept server response on, then change your userId to carlos:
-https://ac321fcc1eb7dfb680cf31e600d200b4.web-security-academy.net/my-account?id=carlos
-
-In the first response, use the search field to find the API key. Submit and you're done!
