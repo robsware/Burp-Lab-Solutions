@@ -1,0 +1,8 @@
+User ID controlled by request parameter, with unpredictable user IDs 
+
+Solution provided is great. Once you find an article by carlos, click on him and notice the URL:
+https://acc21f831ee8568b80bb2c6400eb00bd.web-security-academy.net/blogs?userId=b32f7e38-8278-4b2f-a26a-4aa539e04897
+
+Click on "My Account" and replace your userId with carlos's:
+
+https://acc21f831ee8568b80bb2c6400eb00bd.web-security-academy.net/my-account?id=b32f7e38-8278-4b2f-a26a-4aa539e04897
