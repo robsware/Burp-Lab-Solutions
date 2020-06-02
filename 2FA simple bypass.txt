@@ -1,0 +1,7 @@
+2FA simple bypass
+
+Fairly simple. After you log in with carlos's credentials, use this url:
+
+https://ace41fc51f6ddb2c80893a99008e0033.web-security-academy.net/my-account?id=carlos
+
+Easy peasy.
