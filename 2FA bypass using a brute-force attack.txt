@@ -86,7 +86,7 @@ From [ session=] to [; Path=]
 
 Launch the attack. You should be getting 302 responses. Wait for it to finish, then collect your new session cookies.
 
-IMPORTANT: Once again, delete any non 200 results from the list.
+IMPORTANT: Once again, delete any non 302 results from the list.
 
 3. Getting authenticated csrf tokens:
 
