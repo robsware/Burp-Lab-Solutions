@@ -1,9 +1,9 @@
 2FA bypass using a brute-force attack
 
-THE SOLUTION PROVIDED BY BURP NOT ONLY DOESN'T WORK, BUT EVEN WHEN FIXED IT'S TOO SLOW TO COMPLETE THE LAB IN TIME. SCROLL DOWN FOR THE REAL SOLUTION.
+THE SOLUTION PROVIDED BY BURP DOESN'T REALLY WORK, EVEN WHEN FIXED IT'S TOO SLOW TO COMPLETE THE LAB IN TIME. SCROLL DOWN FOR THE REAL SOLUTION.
 
 This one can be a bit tricky if you miss a crucial step that is not mentioned in the instructions:
-In the Macro Editor, click on the POST /login request and for the csrf token, select "Derive from prior response". This will prevent the expiration of the token.
+In the Macro Editor, click on the POST /login request and for the csrf token, select "Derive from prior response". This will prevent the expiration of the token issue.
 Path: Project Options > Sessions > Session Handling Rules > Macro Editor
 
 Besides that, the instructions provided are great.
@@ -86,7 +86,7 @@ From [ session=] to [; Path=]
 
 Launch the attack. You should be getting 302 responses. Wait for it to finish, then collect your new session cookies.
 
-IMPORTANT: Once again, delete any non 200 results from the list.
+IMPORTANT: Once again, delete any non 302 results from the list.
 
 3. Getting authenticated csrf tokens:
 
