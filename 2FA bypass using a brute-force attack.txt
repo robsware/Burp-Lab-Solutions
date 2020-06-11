@@ -58,7 +58,7 @@ Copy the session cookie and csrf token columns (in burp pro, you can control+cli
 
 2. Obtain authenticated session cookies.
 
-Send the POST /login request to intruder. Add the markets to the session cookie and the csrf token. Should look like this:
+Send the POST /login request to intruder. Add the markers to the session cookie and the csrf token. Should look like this:
 
 POST /login HTTP/1.1
 Host: acc91fa21e24c6328069db24004e0038.web-security-academy.net
