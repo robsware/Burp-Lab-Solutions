@@ -1,0 +1,37 @@
+Information disclosure in version control history
+
+The solution provided didn't really work for me. Running git diff in the main tree outputs this:
+
+diff --git a/admin.conf b/admin.conf
+deleted file mode 100644
+index 21d23f1..0000000
+--- a/admin.conf
++++ /dev/null
+@@ -1 +0,0 @@
+-ADMIN_PASSWORD=env('ADMIN_PASSWORD')
+
+Which only show that a line has been removed. 
+
+Instead I ran a git log command in the main directory
+$ git log
+
+error: unable to open object pack directory: .git/objects/pack: Not a directory
+commit 35c3489a893b2274a4a80b9dd997b584131e0d9b (HEAD -> master)
+Author: Carlos Montoya <carlos@evil-user.net>
+Date:   Tue Jun 23 14:05:07 2020 +0000
+
+    Remove admin password from config
+
+commit b3ab868623ac397e780ff2df1fc93ad5a651e3b9
+Author: Carlos Montoya <carlos@evil-user.net>
+Date:   Mon Jun 22 16:23:42 2020 +0000
+
+    Add skeleton admin panel
+
+
+So let's just switch to the commit before Carlos removed the admin password:
+
+git checkout b3ab868623ac397e780ff2df1fc93ad5a651e3b9
+
+
+Now the admin.conf file should be in the main directory. Just read it to find the password.
